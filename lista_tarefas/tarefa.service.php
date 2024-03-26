@@ -13,16 +13,19 @@ class TarefaService {
 	}
 
 	public function inserir() { //create
-		$query = 'insert into tb_tarefas(tarefa)values(:tarefa)';
+		$query = 'insert into tb_tarefas(tarefa, dataLimite, prioridadeTarefa, categoriaTarefa) values(:tarefa, :dataLimite, :prioridadeTarefa, :categoriaTarefa)';
 		$stmt = $this->conexao->prepare($query);
 		$stmt->bindValue(':tarefa', $this->tarefa->__get('tarefa'));
+		$stmt->bindValue(':dataLimite', $this->tarefa->__get('dataLimite'));
+		$stmt->bindValue(':prioridadeTarefa', $this->tarefa->__get('prioridadeTarefa'));
+		$stmt->bindValue(':categoriaTarefa', $this->tarefa->__get('categoriaTarefa'));
 		$stmt->execute();
 	}
 
 	public function recuperar() { //read
 		$query = '
 			select 
-				t.id, s.status, t.tarefa 
+				t.id, s.status, t.tarefa, t.data_cadastrado, t.dataLimite, t.prioridadeTarefa, t.categoriaTarefa 
 			from 
 				tb_tarefas as t
 				left join tb_status as s on (t.id_status = s.id)
