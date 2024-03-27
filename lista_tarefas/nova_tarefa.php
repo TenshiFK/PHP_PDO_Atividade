@@ -49,6 +49,18 @@
 										<label>Descrição da tarefa:</label>
 										<input type="text" class="form-control" name="tarefa" placeholder="Exemplo: Lavar o carro">
 									</div>
+									<div class="form-group">
+										<label>Data limite:</label>
+										<input type="date" class="form-control" name="dataLimite">
+									</div>
+									<div class="form-group">
+										<label>Prioridade:</label>
+										<input type="text" class="form-control" name="prioridadeTarefa" placeholder="Exemplo: Baixa">
+									</div>
+									<div class="form-group">
+										<label>Categoria:</label>
+										<input type="text" class="form-control" name="categoriaTarefa" placeholder="Exemplo: Trabalho">
+									</div>
 
 									<button class="btn btn-success">Cadastrar</button>
 								</form>

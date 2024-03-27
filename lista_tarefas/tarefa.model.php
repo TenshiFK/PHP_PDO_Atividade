@@ -6,6 +6,12 @@ class Tarefa {
 	private $tarefa;
 	private $data_cadastro;
 
+	private $dataLimite;
+
+	private $prioridadeTarefa;
+
+	private $categoriaTarefa;
+
 	public function __get($atributo) {
 		return $this->$atributo;
 	}
