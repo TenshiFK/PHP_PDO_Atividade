@@ -113,9 +113,8 @@
 
 	$tarefaService = new TarefaService($conexao, $tarefa);
 	$tarefas = $tarefaService->recuperarTarefasArquivadas();
-	} 
-	else if($acao == 'atrasada') {
 
+	} else if($acao == 'tarefaAtrasada') {
 		$tarefa = new Tarefa();
 		$tarefa->__set('id', $_GET['id'])->__set('id_status', 4);
 
@@ -129,16 +128,14 @@
 		} else {
 			header('location: todas_tarefas.php');
 	}
-}
+	} else if($acao == 'recuperarTarefasAtrasadas') {
+		$tarefa = new Tarefa();
+		$tarefa->__set('id_status', 4);
+		
+		$conexao = new Conexao();
 
-	else if($acao == 'recuperarTarefasAtrasadas') {
-	$tarefa = new Tarefa();
-	$tarefa->__set('id_status', 4);
-	
-	$conexao = new Conexao();
-
-	$tarefaService = new TarefaService($conexao, $tarefa);
-	$tarefas = $tarefaService->recuperarTarefasAtrasadas();
+		$tarefaService = new TarefaService($conexao, $tarefa);
+		$tarefas = $tarefaService->recuperarTarefasAtrasadas();
 }
 
 
