@@ -83,10 +83,6 @@
 	} else if($acao == 'recuperarTarefasPendentes') {
 		$tarefa = new Tarefa();
 		$tarefa->__set('id_status', 1);
-		$tarefa->__set('tarefa', $_POST['tarefa']);
-		$tarefa->__set('dataLimite', $_POST['dataLimite']);
-		$tarefa->__set('prioridadeTarefa', $_POST['prioridadeTarefa']);
-		$tarefa->__set('categoriaTarefa', $_POST['categoriaTarefa']);
 		
 		$conexao = new Conexao();
 

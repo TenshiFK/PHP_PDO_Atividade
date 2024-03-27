@@ -70,17 +70,9 @@ class TarefaService {
 				left join tb_status as s on (t.id_status = s.id)
 			where
 				t.id_status = :id_status
-				t.tarefa = :tarefa
-				t.dataLimite = :dataLimite
-				t.prioridadeTarefa = :prioridadeTarefa
-				t.categoriaTarefa = :categoriaTarefa
 		';
 		$stmt = $this->conexao->prepare($query);
 		$stmt->bindValue(':id_status', $this->tarefa->__get('id_status'));
-		$stmt->bindValue(':tarefa', $this->tarefa->__get('tarefa'));
-		$stmt->bindValue(':dataLimite', $this->tarefa->__get('dataLimite'));
-		$stmt->bindValue(':prioridadeTarefa', $this->tarefa->__get('prioridadeTarefa'));
-		$stmt->bindValue(':categoriaTarefa', $this->tarefa->__get('categoriaTarefa'));
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -111,6 +103,7 @@ class TarefaService {
 		$stmt->execute();
 		return $stmt->fetchAll(PDO::FETCH_OBJ);
 	}
+
 }
 
 ?>

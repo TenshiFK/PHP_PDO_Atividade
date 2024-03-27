@@ -89,6 +89,9 @@
 			function arquivar(id) {
 				location.href = 'todas_tarefas.php?acao=arquivar&id='+id;
 			}
+			function refreshPage(){
+				console.log("Refreshing");
+			}
 		</script>
 		<!--AJAX-->
 		<!-- Tenta puxar os dados do forms, utilizando o status pesquisado -->
@@ -97,16 +100,16 @@
 					/**Tenta criar um request**/
 					let request = new XMLHttpRequest();
 					/**procurar tentar chamar a funcao forms para o URL**/
-					var url="todas_tarefas.php?acao="+funcao;
-					request.open("GET", url);
+					var url="todas_tarefas.php?acao=";
+					/**Adiciona o request com o status */
+					request.open("GET",url+funcao, true);
 					request.onreadystatechange = () => {
 						if(request.readyState == 4 && request.status == 200){
 							//**let dadosJSONText = request.responseText;
 							/**let dados = JSON.parse(response);**/
 							/**Muda a URL para a função.**/
-							window.history.replaceState("", '', url);
-							console.log("DEU CERTO!");
-							
+							history.pushState({},"",url+funcao);
+							window.location.reload()
 						}
 					}
 					request.send();
@@ -149,13 +152,16 @@
 											<form method="GET">
 												<label>Filtro de Status</label>
 												<select name="status" onchange="GetRequestAjax(this.value)">
-													<option value="">Todas Tarefas</option>
+													<option value="recuperar">Todas Tarefas</option>
 													<option value="recuperarTarefasPendentes">Tarefas Pendentes</option>
 													<option value="2">Tarefas Concluidas</option>
 												</select>
 											</form>
 										</div>
-										<div class="form-group">
+
+
+									<!-- FILTROS  -->
+									 <div class="form-group">
 											<form>
 												<label>Filtro de Critérios</label>
 												<select name="criterios">
@@ -164,17 +170,23 @@
 													<option value="2">Prioridade</option>
 												</select>
 											</form>
-										</div>
+										</div> 
+
+
+
 										<div class="form-group">
 											<form class="d-flex justify-content-center align-items-center">
 												<div class="d-flex flex-column justify-content-end">
 													<label>Filtro de Categoria</label>
 													<input type="text" placeholder="Categoria">
 												</div>
-												<button class="btn btn-success ml-3">Buscar</button>
+												<button class="btn btn-success ml-3" onclick="refreshPage()">Buscar</button>
 											</form>
 										</div>
-									</div>
+									</div> 
+
+
+
 								<!-------------------->
 								<?php foreach($tarefas as $indice => $tarefa) { ?>
 									<div class="row mb-3 d-flex align-items-center tarefa">
