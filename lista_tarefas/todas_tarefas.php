@@ -20,6 +20,10 @@
 		<link rel="stylesheet" href="css/estilo.css">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+		
+		<!-- inclusão do ajax -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		
 
 		<script>
 			function editar(id, txt_tarefa) {
@@ -86,6 +90,28 @@
 				location.href = 'todas_tarefas.php?acao=arquivar&id='+id;
 			}
 		</script>
+		<!--AJAX-->
+		<!-- Tenta puxar os dados do forms, utilizando o status pesquisado -->
+		<script language="javascript" type="text/javascript">
+			function GetRequestAjax(funcao){
+					/**Tenta criar um request**/
+					let request = new XMLHttpRequest();
+					/**procurar tentar chamar a funcao forms para o URL**/
+					var url="todas_tarefas.php?acao="+funcao;
+					request.open("GET", url);
+					request.onreadystatechange = () => {
+						if(request.readyState == 4 && request.status == 200){
+							//**let dadosJSONText = request.responseText;
+							/**let dados = JSON.parse(response);**/
+							/**Muda a URL para a função.**/
+							window.history.replaceState("", '', url);
+							console.log("DEU CERTO!");
+							
+						}
+					}
+					request.send();
+				}
+		</script>
 	</head>
 
 	<body>
@@ -118,28 +144,44 @@
 								<hr />
 									<!--CODIGO NOVO-->
 									<!-------------------->
-								<div class="d-flex justify-content-between">
-									<div class="form-group">
-										<form action="tarefa_controller.php?acao=recuperarTarefasPendentes">
-											<label>Filtro</label>
-											<select name="status" class="form-control">
-												<option>Todas Tarefas</option>
-												<option value="1">Tarefas Pendentes</option>
-												<option value="2">Tarefas Concluidas</option>
-											</select>
-											<button class="btn btn-success">Procurar</button>
-										</form>
-
-
+									<div class="d-flex justify-content-between">
+										<div class="form-group">
+											<form method="GET">
+												<label>Filtro de Status</label>
+												<select name="status" onchange="GetRequestAjax(this.value)">
+													<option value="">Todas Tarefas</option>
+													<option value="recuperarTarefasPendentes">Tarefas Pendentes</option>
+													<option value="2">Tarefas Concluidas</option>
+												</select>
+											</form>
+										</div>
+										<div class="form-group">
+											<form>
+												<label>Filtro de Critérios</label>
+												<select name="criterios">
+													<option value="">Todas Tarefas</option>
+													<option value="1">Data de Criação</option>
+													<option value="2">Prioridade</option>
+												</select>
+											</form>
+										</div>
+										<div class="form-group">
+											<form class="d-flex justify-content-center align-items-center">
+												<div class="d-flex flex-column justify-content-end">
+													<label>Filtro de Categoria</label>
+													<input type="text" placeholder="Categoria">
+												</div>
+												<button class="btn btn-success ml-3">Buscar</button>
+											</form>
+										</div>
 									</div>
-								</div>
 								<!-------------------->
 								<?php foreach($tarefas as $indice => $tarefa) { ?>
 									<div class="row mb-3 d-flex align-items-center tarefa">
 										<div class="col-sm-9" id="tarefa_<?= $tarefa->id ?>">
 
 											
-										<?= $tarefa->tarefa ?> (<?= $tarefa->status ?>)
+										<?= $tarefa->tarefa ?> (<?= $tarefa->status ?>) Data de criação: <?= $tarefa->dataLimite ?> Prioridade: <?= $tarefa->prioridadeTarefa ?> Categoria: <?= $tarefa->categoriaTarefa ?> 
 
 										</div>
 										<div class="col-sm-2 mt-2 d-flex justify-content-between">
@@ -152,7 +194,7 @@
 											<!---CODIGO NOVO --->
 											<!-- adiciona o botão para arquivar as tarefas, quando ela estiver concluida-->
 											<?php if($tarefa->status == 'realizado') { ?>
-												<i class="fas fa-check-square fa-lg text-success" onclick="arquivar(<?= $tarefa->id ?>)"></i>
+												<i class="fas fa-folder fa-lg text-warning" onclick="arquivar(<?= $tarefa->id ?>)"></i>
 											<?php } ?>
 
 										</div>
