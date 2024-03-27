@@ -113,6 +113,32 @@
 
 	$tarefaService = new TarefaService($conexao, $tarefa);
 	$tarefas = $tarefaService->recuperarTarefasArquivadas();
+	} 
+	else if($acao == 'atrasada') {
+
+		$tarefa = new Tarefa();
+		$tarefa->__set('id', $_GET['id'])->__set('id_status', 4);
+
+		$conexao = new Conexao();
+
+		$tarefaService = new TarefaService($conexao, $tarefa);
+		$tarefaService->atrasada();
+
+		if( isset($_GET['pag']) && $_GET['pag'] == 'index') {
+			header('location: index.php');	
+		} else {
+			header('location: todas_tarefas.php');
+	}
+}
+
+	else if($acao == 'recuperarTarefasAtrasadas') {
+	$tarefa = new Tarefa();
+	$tarefa->__set('id_status', 4);
+	
+	$conexao = new Conexao();
+
+	$tarefaService = new TarefaService($conexao, $tarefa);
+	$tarefas = $tarefaService->recuperarTarefasAtrasadas();
 }
 
 

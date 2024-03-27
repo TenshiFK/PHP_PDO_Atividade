@@ -125,7 +125,7 @@
 								<hr />
 									<!--CODIGO NOVO-->
 									<!-------------------->
-									<div class="d-flex justify-content-between">
+									<div class="d-flex justify-content-between align-items-center">
 										<div class="form-group">
 											<form>
 												<label>Filtro de Status</label>
@@ -136,21 +136,32 @@
 												</select>
 											</form>
 										</div>
+
 										<div class="form-group">
-											<form>
-												<label>Filtro de Critérios</label>
-												<select name="criterios">
-													<option>Todas Tarefas</option>
-													<option value="1">Data de Criação</option>
-													<option value="2">Prioridade</option>
-												</select>
+											<form class="d-flex justify-content-center align-items-center">
+												<div class="d-flex flex-column justify-content-center">
+													<label>Filtro de Categoria</label>
+													<input type="text" placeholder="Categoria" name="categoria">
+												</div>
+												<button class="btn btn-success ml-3">Buscar</button>
+											</form>
+										</div>
+									</div>
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="form-group">
+											<form class="d-flex justify-content-center align-items-center">
+												<div class="d-flex flex-column justify-content-center">
+													<label>Filtro de Data</label>
+													<input type="date" name="data">
+												</div>
+												<button class="btn btn-success ml-3">Buscar</button>
 											</form>
 										</div>
 										<div class="form-group">
 											<form class="d-flex justify-content-center align-items-center">
-												<div class="d-flex flex-column justify-content-end">
-													<label>Filtro de Categoria</label>
-													<input type="text" placeholder="Categoria">
+												<div class="d-flex flex-column justify-content-center">
+													<label>Filtro de Prioridade</label>
+													<input type="text" placeholder="Prioridade" name="prioridade">
 												</div>
 												<button class="btn btn-success ml-3">Buscar</button>
 											</form>
@@ -161,8 +172,7 @@
 									<div class="row mb-3 d-flex align-items-center tarefa">
 										<div class="col-sm-9" id="tarefa_<?= $tarefa->id ?>">
 
-											
-										<?= $tarefa->tarefa ?> (<?= $tarefa->status ?>) Data de criação: <?= $tarefa->dataLimite ?> Prioridade: <?= $tarefa->prioridadeTarefa ?> Categoria: <?= $tarefa->categoriaTarefa ?> 
+										<?= $tarefa->tarefa ?> (<?= $tarefa->status ?>) Data de criação: <?= $tarefa->data_cadastrado ?> Data Limite: <?= $tarefa->dataLimite ?> Prioridade: <?= $tarefa->prioridadeTarefa ?> Categoria: <?= $tarefa->categoriaTarefa ?> 
 
 										</div>
 										<div class="col-sm-2 mt-2 d-flex justify-content-between">
@@ -177,8 +187,18 @@
 											<?php if($tarefa->status == 'realizado') { ?>
 												<i class="fas fa-folder fa-lg text-warning" onclick="arquivar(<?= $tarefa->id ?>)"></i>
 											<?php } ?>
+											<?php
+												// Verificação da data atual com a data limite para cada tarefa
+												$dataAtual = new DateTime();
 
-										</div>
+												foreach($tarefas as $tarefa) {
+													$dataLimite = new DateTime($tarefa->dataLimite);
+
+													if ($dataAtual->format('Y-m-d') > $dataLimite->format('Y-m-d')) {
+														//deveria chamar a função atrasada do tarefa.service
+													}
+												}
+											?>
 									</div>
 
 								<?php } ?>
