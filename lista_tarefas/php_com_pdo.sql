@@ -40,6 +40,7 @@ INSERT INTO `tb_status` (`id`, `status`) VALUES
 (1, 'pendente'),
 (2, 'realizado'),
 (3, 'arquivado');
+(4, 'atrasada');
 
 -- --------------------------------------------------------
 

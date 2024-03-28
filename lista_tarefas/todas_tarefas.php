@@ -91,8 +91,8 @@
 				location.href = 'todas_tarefas.php?acao=arquivar&id='+id;
 			}
 
-			function tarefaAtrasada(id){
-				location.href = 'todas_tarefas.php?acao=tarefaAtrasada&id='+id;
+			function atrasada(id){
+				location.href = 'todas_tarefas.php?acao=atrasada&id='+id;
 			}
 		</script>
 
@@ -215,7 +215,7 @@
 												<div class="alert alert-danger alert-dismissible fade show" role="alert">
 													<p class="alert-heading">Você possui tarefas atrasadas!</p>
 													<hr>
-													<button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="alert" aria-label="Close" onclick="tarefaAtrasada(<?= $tarefa->id ?>)">OK</button>
+													<button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="alert" aria-label="Close" onclick="atrasada(<?= $tarefa->id ?>)">OK</button>
 												</div>
 											<?php } ?>
 

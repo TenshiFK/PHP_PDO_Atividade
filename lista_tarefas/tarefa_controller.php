@@ -114,7 +114,7 @@
 	$tarefaService = new TarefaService($conexao, $tarefa);
 	$tarefas = $tarefaService->recuperarTarefasArquivadas();
 
-	} else if($acao == 'tarefaAtrasada') {
+	} else if($acao == 'atrasada') {
 		$tarefa = new Tarefa();
 		$tarefa->__set('id', $_GET['id'])->__set('id_status', 4);
 
