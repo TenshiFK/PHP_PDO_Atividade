@@ -63,7 +63,11 @@ CREATE TABLE `tb_tarefas` (
 --
 
 INSERT INTO `tb_tarefas` (`id`, `id_status`, `tarefa`, `data_cadastrado`, `dataLimite`, `prioridadeTarefa`, `categoriaTarefa`) VALUES
-(7, 1, 'wdferg', '2024-03-25 21:54:58', '2024-03-27 00:00:00', 'Alta', 'Escola');
+(9, 2, 'Exemplo Concluido', '2024-03-28 19:01:09', '2025-04-28 00:00:00', 'baixa', 'Escola'),
+(10, 3, 'Exemplo Arquivado', '2024-03-28 19:01:25', '2025-04-30 00:00:00', 'medio', 'Escola'),
+(11, 1, 'Exemplo Atrasado', '2024-03-28 19:01:39', '2024-03-27 00:00:00', 'baixa', 'Escola'),
+(12, 1, 'Exemplo Pendente 1', '2024-03-28 19:01:55', '2024-03-29 00:00:00', 'baixa', 'Escola'),
+(13, 1, 'Exemplo Pendente 2', '2024-03-28 19:02:19', '2024-04-05 00:00:00', 'baixa', '');
 
 --
 -- Índices para tabelas despejadas
