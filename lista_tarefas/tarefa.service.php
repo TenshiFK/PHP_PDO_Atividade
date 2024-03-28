@@ -64,7 +64,7 @@ class TarefaService {
 	public function recuperarTarefasPendentes() {
 		$query = '
 			select 
-				t.id, s.status, t.tarefa 
+				t.id, s.status, t.tarefa, t.data_cadastrado, t.dataLimite, t.prioridadeTarefa, t.categoriaTarefa  
 			from 
 				tb_tarefas as t
 				left join tb_status as s on (t.id_status = s.id)
@@ -91,7 +91,7 @@ class TarefaService {
 	public function recuperarTarefasArquivadas() {
 		$query = '
 			select 
-				t.id, s.status, t.tarefa 
+				t.id, s.status, t.tarefa, t.data_cadastrado, t.dataLimite, t.prioridadeTarefa, t.categoriaTarefa  
 			from 
 				tb_tarefas as t
 				left join tb_status as s on (t.id_status = s.id)
@@ -115,7 +115,7 @@ class TarefaService {
 	public function recuperarTarefasAtrasadas() {
 		$query = '
 			select 
-				t.id, s.status, t.tarefa 
+				t.id, s.status, t.tarefa, t.data_cadastrado, t.dataLimite, t.prioridadeTarefa, t.categoriaTarefa  
 			from 
 				tb_tarefas as t
 				left join tb_status as s on (t.id_status = s.id)
@@ -131,7 +131,7 @@ class TarefaService {
 	public function recuperarTarefasConcluidas() {
 		$query = '
 			select 
-				t.id, s.status, t.tarefa 
+				t.id, s.status, t.tarefa, t.data_cadastrado, t.dataLimite, t.prioridadeTarefa, t.categoriaTarefa  
 			from 
 				tb_tarefas as t
 				left join tb_status as s on (t.id_status = s.id)
