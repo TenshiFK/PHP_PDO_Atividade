@@ -21,11 +21,12 @@
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 		
-		<!-- inclusão do ajax -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 		
 
 		<script>
+
 			function editar(id, txt_tarefa) {
 
 				//criar um form de edição
@@ -89,10 +90,12 @@
 			function arquivar(id) {
 				location.href = 'todas_tarefas.php?acao=arquivar&id='+id;
 			}
-			function refreshPage(){
-				console.log("Refreshing");
+
+			function tarefaAtrasada(id){
+				location.href = 'todas_tarefas.php?acao=tarefaAtrasada&id='+id;
 			}
 		</script>
+
 		<!--AJAX-->
 		<!-- Tenta puxar os dados do forms, utilizando o status pesquisado -->
 		<script language="javascript" type="text/javascript">
@@ -147,59 +150,89 @@
 								<hr />
 									<!--CODIGO NOVO-->
 									<!-------------------->
-									<div class="d-flex justify-content-between">
+									<div class="d-flex justify-content-between align-items-center">
 										<div class="form-group">
-											<form method="GET">
+											<form>
 												<label>Filtro de Status</label>
 												<select name="status" onchange="GetRequestAjax(this.value)">
 													<option value="recuperar">Todas Tarefas</option>
 													<option value="recuperarTarefasPendentes">Tarefas Pendentes</option>
-													<option value="2">Tarefas Concluidas</option>
+													<option value="recuperarTarefasConcluidas">Tarefas Concluidas</option>
 												</select>
 											</form>
 										</div>
-
-
-									<!-- FILTROS  -->
-									 <div class="form-group">
-											<form>
-												<label>Filtro de Critérios</label>
-												<select name="criterios">
-													<option value="">Todas Tarefas</option>
-													<option value="1">Data de Criação</option>
-													<option value="2">Prioridade</option>
-												</select>
-											</form>
-										</div> 
-
-
 
 										<div class="form-group">
-											<form class="d-flex justify-content-center align-items-center">
-												<div class="d-flex flex-column justify-content-end">
-													<label>Filtro de Categoria</label>
-													<input type="text" placeholder="Categoria">
-												</div>
-												<button class="btn btn-success ml-3" onclick="refreshPage()">Buscar</button>
+											<form>
+												<label>Filtro de Categoria</label>
+												<select name="categoria">
+													<option>Todas Tarefas</option>
+													<?php foreach($tarefas as $indice => $tarefa) { ?>
+														<option value="<?=$tarefa->categoriaTarefa?>"><?=$tarefa->categoriaTarefa?></option>
+													<?php } ?>
+												</select>
 											</form>
 										</div>
-									</div> 
+									</div>
 
+									<div class="d-flex justify-content-between align-items-center">
+										<div class="form-group">
+											<form>
+												<label>Filtro de Data</label>
+												<select name="data">
+													<option>Todas Tarefas</option>
+													<?php foreach($tarefas as $indice => $tarefa) { ?>
+														<option value="<?=$tarefa->data_cadastrado?>"><?=$tarefa->data_cadastrado?></option>
+													<?php } ?>	
+												</select>
+											</form>
+										</div>
 
+										<div class="form-group">
+											<form>
+												<label>Filtro de Prioridade</label>
+												<select name="prioridade">
+													<option>Todas Tarefas</option>
+													<?php foreach($tarefas as $indice => $tarefa) { ?>
+														<option value="<?=$tarefa->prioridadeTarefa?>"><?=$tarefa->prioridadeTarefa?></option>
+													<?php } ?>
+												</select>
+											</form>
+										</div>
+									</div>
 
 								<!-------------------->
 								<?php foreach($tarefas as $indice => $tarefa) { ?>
-									<div class="row mb-3 d-flex align-items-center tarefa">
-										<div class="col-sm-9" id="tarefa_<?= $tarefa->id ?>">
+									<div class="row m-1 d-flex align-items-center tarefa">
+										<div class="col-10 w-100" id="tarefa_<?= $tarefa->id ?>">
+										<?php 
+												$dataAtual = new DateTime();
 
-											
-										<?= $tarefa->tarefa ?> (<?= $tarefa->status ?>) Data de criação: <?= $tarefa->dataLimite ?> Prioridade: <?= $tarefa->prioridadeTarefa ?> Categoria: <?= $tarefa->categoriaTarefa ?> 
+												$dataLimite = new DateTime($tarefa->dataLimite);
+											?>
+
+											<?php if(($dataAtual->format('Y-m-d') > $dataLimite->format('Y-m-d')) && ($tarefa->status == 'pendente')) { ?>
+												<div class="alert alert-danger alert-dismissible fade show" role="alert">
+													<p class="alert-heading">Você possui tarefas atrasadas!</p>
+													<hr>
+													<button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="alert" aria-label="Close" onclick="tarefaAtrasada(<?= $tarefa->id ?>)">OK</button>
+												</div>
+											<?php } ?>
+
+											<dl>
+												<dt><?= $tarefa->tarefa ?>(<?= $tarefa->status ?>)</dt>
+													<dd>Data de criação: <?= $tarefa->data_cadastrado ?></dd>
+													<dd>Data Limite: <?= $tarefa->dataLimite ?></dd>
+													<dd>Prioridade: <?= $tarefa->prioridadeTarefa ?></dd>
+													<dd>Categoria: <?= $tarefa->categoriaTarefa ?></dd>
+											</dl>
+										      
 
 										</div>
-										<div class="col-sm-2 mt-2 d-flex justify-content-between">
+										<div class="col-2 mt-2 d-flex justify-content-between">
 											<i class="fas fa-trash-alt fa-lg text-danger" onclick="remover(<?= $tarefa->id ?>)"></i>
 											
-											<?php if($tarefa->status == 'pendente') { ?>
+											<?php if($tarefa->status == 'pendente' || $tarefa->status == 'Em atraso') { ?>
 												<i class="fas fa-edit fa-lg text-info" onclick="editar(<?= $tarefa->id ?>, '<?= $tarefa->tarefa ?>')"></i>
 												<i class="fas fa-check-square fa-lg text-success" onclick="marcarRealizada(<?= $tarefa->id ?>)"></i>
 											<?php } ?>
@@ -208,8 +241,6 @@
 											<?php if($tarefa->status == 'realizado') { ?>
 												<i class="fas fa-folder fa-lg text-warning" onclick="arquivar(<?= $tarefa->id ?>)"></i>
 											<?php } ?>
-
-										</div>
 									</div>
 
 								<?php } ?>
