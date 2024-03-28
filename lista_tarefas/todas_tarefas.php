@@ -91,7 +91,8 @@
 				location.href = 'todas_tarefas.php?acao=arquivar&id='+id;
 			}
 
-			function atrasada(id){
+			//Função que pega o id da tarefa para marcá-la como atrasada
+			function atrasada(id){ 
 				location.href = 'todas_tarefas.php?acao=atrasada&id='+id;
 			}
 		</script>
@@ -167,6 +168,7 @@
 												<label>Filtro de Categoria</label>
 												<select name="categoria">
 													<option>Todas Tarefas</option>
+													<!--For para pegar as opções baseadas no que foi digitado pelo usuário-->
 													<?php foreach($tarefas as $indice => $tarefa) { ?>
 														<option value="<?=$tarefa->categoriaTarefa?>"><?=$tarefa->categoriaTarefa?></option>
 													<?php } ?>
@@ -181,6 +183,7 @@
 												<label>Filtro de Data</label>
 												<select name="data">
 													<option>Todas Tarefas</option>
+													<!--For para pegar as opções baseadas no que foi digitado pelo usuário-->
 													<?php foreach($tarefas as $indice => $tarefa) { ?>
 														<option value="<?=$tarefa->data_cadastrado?>"><?=$tarefa->data_cadastrado?></option>
 													<?php } ?>	
@@ -193,6 +196,7 @@
 												<label>Filtro de Prioridade</label>
 												<select name="prioridade">
 													<option>Todas Tarefas</option>
+													<!--For para pegar as opções baseadas no que foi digitado pelo usuário-->
 													<?php foreach($tarefas as $indice => $tarefa) { ?>
 														<option value="<?=$tarefa->prioridadeTarefa?>"><?=$tarefa->prioridadeTarefa?></option>
 													<?php } ?>
@@ -206,11 +210,12 @@
 									<div class="row m-1 d-flex align-items-center tarefa">
 										<div class="col-10 w-100" id="tarefa_<?= $tarefa->id ?>">
 										<?php 
-												$dataAtual = new DateTime();
+												$dataAtual = new DateTime(); //Pega a data atual para comparação
 
-												$dataLimite = new DateTime($tarefa->dataLimite);
+												$dataLimite = new DateTime($tarefa->dataLimite); //Pega a data estipulada pelo usuário
 											?>
-
+												<!--If que ve se a data atual é maior que a limite e avisa que a tarefa está atrasada
+												Quando o usuário clica OK, muda o status dela para atrasada-->
 											<?php if(($dataAtual->format('Y-m-d') > $dataLimite->format('Y-m-d')) && ($tarefa->status == 'pendente')) { ?>
 												<div class="alert alert-danger alert-dismissible fade show" role="alert">
 													<p class="alert-heading">Você possui tarefas atrasadas!</p>
